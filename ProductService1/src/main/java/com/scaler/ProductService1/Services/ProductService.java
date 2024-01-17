@@ -3,13 +3,12 @@ package com.scaler.ProductService1.Services;
 import com.scaler.ProductService1.DTOs.GenericProductDTO;
 import com.scaler.ProductService1.Exceptions.NotFoundException;
 
-import java.io.NotActiveException;
 import java.util.List;
 
 public interface ProductService {
-    public GenericProductDTO getProductById(Long id) throws NotFoundException, NotFoundException;
-    public List<GenericProductDTO> getAllProduct();
+    public GenericProductDTO findProductById(Long id) throws NotFoundException;
+    public List<GenericProductDTO> findAllProducts() throws NotFoundException;
     public GenericProductDTO createProduct(GenericProductDTO genericProductDTO);
-    public GenericProductDTO deleteProductById(Long id) throws NotFoundException;
-    public GenericProductDTO updateProductById(Long id, GenericProductDTO genericProductDTO);
+    public GenericProductDTO updateProductById(Long id, GenericProductDTO newProduct) throws NotFoundException;
+    public GenericProductDTO deleteProductById(long id) throws NotFoundException;
 }
