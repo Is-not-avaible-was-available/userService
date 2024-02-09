@@ -13,6 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.MultiValueMapAdapter;
@@ -25,10 +26,13 @@ import java.util.Optional;
 public class AuthService {
     private UserRepository userRepository;
     private SessionRepository sessionRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthService(UserRepository userRepository, SessionRepository sessionRepository){
+    public AuthService(UserRepository userRepository, SessionRepository sessionRepository,
+                       BCryptPasswordEncoder bCryptPasswordEncoder){
         this.sessionRepository = sessionRepository;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public UserDto signUp(String email, String password) throws AlreadyExistsException {
@@ -38,8 +42,7 @@ public class AuthService {
         }
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password);
-
+        user.setPassword(bCryptPasswordEncoder.encode(password));
         User savedUser = userRepository.save(user);
         return UserDto.from(savedUser);
     }
@@ -50,7 +53,7 @@ public class AuthService {
             throw new NotFoundException("User is not found, please  sign up!");
         }
         User user = userOptional.get();
-        if(!Objects.equals(user.getPassword(), password)){
+        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
             throw new WrongPasswordException();
         }
         String token = RandomStringUtils.randomAlphanumeric(30);
