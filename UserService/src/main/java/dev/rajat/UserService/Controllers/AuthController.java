@@ -1,5 +1,6 @@
 package dev.rajat.UserService.Controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.rajat.UserService.DTOs.*;
 import dev.rajat.UserService.Exceptions.AlreadyExistsException;
 import dev.rajat.UserService.Exceptions.NotFoundException;
@@ -30,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody LoginRequestDTO requestDTO) throws NotFoundException, WrongPasswordException {
+    public ResponseEntity<UserDto> login(@RequestBody LoginRequestDTO requestDTO) throws NotFoundException, WrongPasswordException, JsonProcessingException {
 
         return authService.login(requestDTO.getEmail(), requestDTO.getPassword());
     }
@@ -42,10 +43,10 @@ public class AuthController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<SessionStatus> validate(@RequestBody ValidateTokenRequestDTO validateTokenRequestDTO){
-       SessionStatus sessionStatus = authService
+    public ResponseEntity<JwtDTO> validate(@RequestBody ValidateTokenRequestDTO validateTokenRequestDTO) throws NotFoundException, JsonProcessingException {
+       JwtDTO jwtDTO = authService
                .validate(validateTokenRequestDTO.getToken(),
                        validateTokenRequestDTO.getUserId());
-        return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
+        return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
     }
 }
