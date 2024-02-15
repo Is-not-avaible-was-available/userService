@@ -74,8 +74,8 @@ public class AuthService {
 //        String token = RandomStringUtils.randomAlphanumeric(30);
         Map<String, Object> jwtData = new HashMap<>();
         jwtData.put("email", email);
-        String claimString  = objectMapper.writeValueAsString(user.getRoles());
-        jwtData.put("roles", user.getRoles());
+//        String claimString  = objectMapper.writeValueAsString(user.getRoles());
+//        jwtData.put("roles", user.getRoles());
 
         String token = Jwts.builder()
                 .claims(jwtData).signWith(secretKey)

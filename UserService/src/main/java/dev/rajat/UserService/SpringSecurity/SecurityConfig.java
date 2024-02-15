@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -44,6 +45,7 @@ import java.util.UUID;
 public class SecurityConfig {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
     public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder){
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -86,15 +88,15 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.builder()
-                .username("user")
-                .password(bCryptPasswordEncoder.encode("password"))
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(userDetails);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails userDetails = User.builder()
+//                .username("user")
+//                .password(bCryptPasswordEncoder.encode("password"))
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(userDetails);
+//    }
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
