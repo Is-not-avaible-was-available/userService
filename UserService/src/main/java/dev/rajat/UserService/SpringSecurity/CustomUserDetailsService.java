@@ -1,5 +1,6 @@
 package dev.rajat.UserService.SpringSecurity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import dev.rajat.UserService.Models.User;
 import dev.rajat.UserService.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@JsonDeserialize(as = CustomUserDetailsService.class)
 public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired

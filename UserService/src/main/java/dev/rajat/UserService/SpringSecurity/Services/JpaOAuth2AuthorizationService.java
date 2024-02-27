@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import dev.rajat.UserService.SpringSecurity.Repositories.AuthorizationRepository;
 import dev.rajat.UserService.SpringSecurity.Models.Authorization;
 
@@ -35,6 +36,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 @Component
+@JsonDeserialize(as = JpaOAuth2AuthorizationService.class)
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
     private final AuthorizationRepository authorizationRepository;
     private final RegisteredClientRepository registeredClientRepository;

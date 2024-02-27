@@ -8,6 +8,7 @@ import java.util.Set;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import dev.rajat.UserService.SpringSecurity.Models.Client;
 import dev.rajat.UserService.SpringSecurity.Repositories.ClientRepository;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
@@ -23,6 +24,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 @Component
+@JsonDeserialize(as = JpaRegisteredClientRepository.class)
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
     private final ClientRepository clientRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
