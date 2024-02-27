@@ -2,26 +2,34 @@ package dev.rajat.UserService.SpringSecurity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import dev.rajat.UserService.Models.Role;
 import dev.rajat.UserService.Models.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @JsonDeserialize(as = CustomUserDetails.class)
 public class CustomUserDetails implements UserDetails {
     private User user;
+    public CustomUserDetails(){}
     public CustomUserDetails(User user){
         this.user = user;
     }
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<CustomGrantedAuthority>customGrantedAuthorities = new ArrayList<>();
+        for(Role role : user.getRoles()){
+            customGrantedAuthorities.add(new CustomGrantedAuthority(role));
+        }
+        return customGrantedAuthorities;
     }
 
     @Override
