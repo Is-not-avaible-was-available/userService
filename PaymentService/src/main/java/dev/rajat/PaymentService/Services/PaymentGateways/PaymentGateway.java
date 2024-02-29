@@ -1,2 +1,7 @@
-package dev.rajat.PaymentService.Services.PaymentGateways;public interface PaymentGateway {
+package dev.rajat.PaymentService.Services.PaymentGateways;
+
+import com.razorpay.PaymentLink;
+
+public interface PaymentGateway {
+    public String generateLink();
 }
